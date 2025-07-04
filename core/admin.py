@@ -83,14 +83,16 @@ class LivroAdmin(admin.ModelAdmin):
     ordering = ('titulo', 'editora', 'categoria')
     list_per_page = 25
 
+class ItensCompraInline(admin.TabularInline):
+    model = ItensCompra
+    extra = 1  # Quantidade de itens adicionais
+
+
 @admin.register(Compra)
 class CompraAdmin(admin.ModelAdmin):
     list_display = ('usuario', 'status')
+    search_fields = ('usuario', 'status')
+    list_filter = ('usuario', 'status')
     ordering = ('usuario', 'status')
     list_per_page = 10
-
-@admin.register(ItensCompra)
-class ItensCompraAdmin(admin.ModelAdmin):
-    list_display = ('compra', 'livro', 'quantidade')
-    ordering = ('compra', 'livro')
-    list_per_page = 10
+    inlines = [ItensCompraInline]
